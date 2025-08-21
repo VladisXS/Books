@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Містична Бібліотека</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background:
+                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.6)),
+                url('https://cdn4.suspilne.media/images/resize/680x1.5/ae22b3f443577f0a.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #d4af37;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .mystical-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(45deg, transparent 48%, rgba(139, 69, 19, 0.1) 49%, rgba(139, 69, 19, 0.1) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(101, 67, 33, 0.1) 49%, rgba(101, 67, 33, 0.1) 51%, transparent 52%),
+                radial-gradient(ellipse at center, transparent 30%, rgba(139, 69, 19, 0.05) 70%);
+            background-size: 200px 200px, 200px 200px, 400px 400px;
+            animation: woodGrain 20s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes woodGrain {
+            0% { background-position: 0 0, 0 0, 0 0; }
+            100% { background-position: 200px 200px, -200px 200px, 100px 100px; }
+        }
+
+        .header {
+    text-align: center;
+    padding: 3rem 0;
+    background:
+        linear-gradient(rgba(0,0,0,0.8), rgba(34, 22, 8, 0.9)),
+        linear-gradient(45deg, transparent 48%, rgba(139, 69, 19, 0.2) 49%, rgba(139, 69, 19, 0.2) 51%, transparent 52%);
+    backdrop-filter: blur(5px);
+    box-shadow:
+        inset 0 -20px 40px rgba(139, 69, 19, 0.3),
+        0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #c9a961;
+            font-style: italic;
+        }
+
+        .library-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .book-card {
+            background:
+                linear-gradient(145deg, rgba(34, 22, 8, 0.95), rgba(20, 15, 8, 0.95)),
+                linear-gradient(45deg, transparent 48%, rgba(139, 69, 19, 0.1) 49%, rgba(139, 69, 19, 0.1) 51%, transparent 52%);
+            border: 2px solid #8b6914;
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                inset 0 1px 0 rgba(212, 175, 55, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+                0 5px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .book-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(45deg, transparent 48%, rgba(139, 69, 19, 0.05) 49%, rgba(139, 69, 19, 0.05) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(101, 67, 33, 0.05) 49%, rgba(101, 67, 33, 0.05) 51%, transparent 52%);
+            background-size: 20px 20px, 20px 20px;
+            pointer-events: none;
+        }
+
+        .book-card:hover::before {
+            left: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow:
+                inset 0 1px 0 rgba(212, 175, 55, 0.5),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.7),
+                0 25px 50px rgba(212, 175, 55, 0.4),
+                0 0 30px rgba(139, 69, 19, 0.3);
+            border-color: #d4af37;
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 300px;
+            background: #3d2817;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #c9a961;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .book-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .book-author {
+            color: #c9a961;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .book-reader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(rgba(0,0,0,0.9), rgba(10,8,5,0.95)),
+                url('https://cdn4.suspilne.media/images/resize/680x1.5/ae22b3f443577f0a.jpg');
+            background-size: cover;
+            background-position: center;
+            backdrop-filter: blur(3px);
+            z-index: 1000;
+        }
+
+        .reader-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .book-content {
+            perspective: 1500px;
+            width: 800px;
+            height: 600px;
+            position: relative;
+            max-width: 90vw;
+            max-height: 80vh;
+        }
+
+        .book-open {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            display: flex;
+        }
+
+        .page {
+            width: 50%;
+            height: 100%;
+            background:
+                linear-gradient(145deg, #f8f6f0, #f2f0e8),
+                radial-gradient(ellipse at 50% 50%, rgba(139, 69, 19, 0.05) 0%, transparent 70%);
+            border: 2px solid #8b6914;
+            padding: 2rem;
+            font-size: 1rem;
+            line-height: 1.4;
+            color: #2c1810;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.1);
+            font-family: 'Courier New', monospace;
+            white-space: pre-line;
+        }
+
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(90deg, transparent 0%, rgba(139, 69, 19, 0.03) 50%, transparent 100%),
+                linear-gradient(0deg, transparent 0%, rgba(101, 67, 33, 0.02) 50%, transparent 100%);
+            background-size: 100px 2px, 2px 100px;
+            pointer-events: none;
+        }
+
+        .page-left {
+            border-right: none;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        .page-right {
+            border-left: none;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            transform-origin: left center;
+            transition: transform 0.8s ease;
+            cursor: pointer;
+        }
+
+        .page-right.flipping {
+            transform: rotateY(-180deg);
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 1rem;
+            color: #8b4513;
+            font-size: 0.9rem;
+        }
+
+        .page-left .page-number {
+            left: 2rem;
+        }
+
+        .page-right .page-number {
+            right: 2rem;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1001;
+        }
+
+        .control-btn {
+            background: linear-gradient(145deg, #d4af37, #b8941f);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            color: #1a1a1a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(145deg, #f4d03f, #d4af37);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(212, 175, 55, 0.4);
+        }
+
+        .add-book-form {
+            background:
+                linear-gradient(145deg, rgba(34, 22, 8, 0.95), rgba(20, 15, 8, 0.95)),
+                linear-gradient(45deg, transparent 48%, rgba(139, 69, 19, 0.1) 49%, rgba(139, 69, 19, 0.1) 51%, transparent 52%);
+            border: 2px solid #8b6914;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow:
+                inset 0 1px 0 rgba(212, 175, 55, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+                0 10px 25px rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+
+        .add-book-form::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(45deg, transparent 48%, rgba(139, 69, 19, 0.03) 49%, rgba(139, 69, 19, 0.03) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(101, 67, 33, 0.03) 49%, rgba(101, 67, 33, 0.03) 51%, transparent 52%);
+            background-size: 30px 30px, 30px 30px;
+            pointer-events: none;
+            border-radius: 15px;
+        }
+
+        .add-book-form h3 {
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #c9a961;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            color: #d4af37;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: #8b7355;
+        }
+
+        .add-btn {
+            background: linear-gradient(145deg, #d4af37, #b8941f);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            color: #1a1a1a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .add-btn:hover {
+            background: linear-gradient(145deg, #f4d03f, #d4af37);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .book-content {
+                width: 95vw;
+                height: 70vh;
+            }
+
+            .page {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+
+            .controls {
+                bottom: 1rem;
+            }
+
+            .control-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            color: #c9a961;
+            font-style: italic;
+            margin: 2rem 0;
+        }
+
+        .error-message {
+            text-align: center;
+            color: #cd853f;
+            font-style: italic;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(205, 133, 63, 0.1);
+            border: 1px solid #cd853f;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mystical-bg"></div>
+
+    <header class="header">
+        <h1> Містична Бібліотека </h1>
+        <p>Відкрийте для себе світ знань і містики</p>
+    </header>
+
+    <div class="library-container">
+        <div class="books-grid" id="booksGrid">
+            <!-- Books will be added here dynamically -->
+        </div>
+    </div>
+
+    <div class="book-reader" id="bookReader">
+        <button class="close-btn" onclick="closeReader()">✕ Закрити</button>
+        <div class="reader-container">
+            <div class="book-content">
+                <div class="book-open">
+                    <div class="page page-left" id="leftPage">
+                        <div class="page-number" id="leftPageNum">1</div>
+                        <div id="leftPageContent"></div>
+                    </div>
+                    <div class="page page-right" id="rightPage" onclick="nextPage()">
+                        <div class="page-number" id="rightPageNum">2</div>
+                        <div id="rightPageContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="control-btn" id="prevBtn" onclick="prevPage()">← Попередня</button>
+            <button class="control-btn" id="nextBtn" onclick="nextPage()">Наступна →</button>
+        </div>
+    </div>
+
+    <script>
+        // Книги з їх метаданими (дані в коді)
+        const booksMetadata = [
+            {
+                id: 1,
+                title: "Таємниці Старої Бібліотеки",
+                author: "Невідомий Мудрець",
+                coverUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                textFile: "fbook.txt" // файл з текстом книги
+            },
+            {
+                id: 2,
+                title: "Магічні Заклинання",
+                author: "Smurfik",
+                coverUrl: "https://presa.com.ua/images/2021/10/30/1483694915190684314_large.jpg",
+                textFile: "sbook.txt"
+            },
+            {
+                id: 3,
+                title: "Історії Середньовіччя",
+                author: "Літописець Нестор",
+                coverUrl: "https://kulturologia.at.ua/4qrsntvam7le7f3hzc2yvlgsvrpxt6yc.jpg",
+                textFile: "tbook.txt"
+            }
+        ];
+
+        let books = [];
+        let currentBook = null;
+        let currentPageIndex = 0;
+        let pages = [];
+        let isFlipping = false;
+
+        // Завантажити книги при старті
+        initializeBooks();
+
+        function initializeBooks() {
+            books = [...booksMetadata];
+            renderBooks();
+        }
+
+        async function loadBookContent(textFile) {
+            try {
+                // Спочатку перевіряємо, чи файл доступний через window.fs.readFile (якщо завантажений користувачем)
+                if (window.fs && window.fs.readFile) {
+                    try {
+                        const content = await window.fs.readFile(textFile, { encoding: 'utf8' });
+                        return content;
+                    } catch (fsError) {
+                        console.log('Файл не знайдено через fs API, спробуємо fetch...');
+                    }
+                }
+
+                // Якщо fs API недоступний, спробуємо завантажити файл через fetch
+                const response = await fetch(textFile);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const content = await response.text();
+                return content;
+            } catch (error) {
+                console.error('Помилка завантаження файлу:', textFile, error);
+                return `Помилка завантаження тексту з файлу "${textFile}".
+
+Щоб завантажити текст книги:
+1. Покладіть файл "${textFile}" в ту ж папку, що й HTML файл
+2. Або завантажте файл через браузер (якщо підтримується)
+
+Приклад змісту файлу:
+Розділ 1: Вступ
+
+Це початок вашої книги...
+
+Розділ 2: Продовження
+
+Тут продовжується історія...`;
+            }
+        }
+
+        function addBook() {
+            // Function removed - books loaded from file
+            alert('Книги завантажуються з файлу');
+        }
+
+        function clearForm() {
+            // No form elements to clear since books loaded from file
+        }
+
+        function renderBooks() {
+            const grid = document.getElementById('booksGrid');
+            grid.innerHTML = '';
+
+            books.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                bookCard.onclick = () => openBook(book);
+
+                bookCard.innerHTML = `
+                    <div class="book-cover" style="${book.coverUrl ? `background-image: url('${book.coverUrl}')` : ''}">
+                        ${!book.coverUrl ? '📖 Обкладинка' : ''}
+                    </div>
+                    <div class="book-title">${book.title}</div>
+                    <div class="book-author">${book.author}</div>
+                `;
+
+                grid.appendChild(bookCard);
+            });
+        }
+
+        function openBook(book) {
+            currentBook = book;
+            currentPageIndex = 0;
+
+            // Показуємо читалку з повідомленням про завантаження
+            document.getElementById('bookReader').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            // Показуємо індикатор завантаження
+            document.getElementById('leftPageContent').innerHTML = '<div class="loading">📖 Завантаження тексту книги...</div>';
+            document.getElementById('rightPageContent').innerHTML = '';
+
+            // Завантажуємо контент книги
+            loadBookContent(book.textFile).then(content => {
+                currentBook.content = content;
+                pages = splitIntoPages(content);
+                updatePages();
+            }).catch(error => {
+                document.getElementById('leftPageContent').innerHTML = `<div class="error-message">❌ Помилка завантаження: ${error.message}</div>`;
+                document.getElementById('rightPageContent').innerHTML = '';
+            });
+        }
+
+        function closeReader() {
+            document.getElementById('bookReader').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            currentBook = null;
+        }
+
+        function splitIntoPages(content) {
+            const maxCharsPerLine = 45;
+            const maxLinesPerPage = 16;
+
+            // Розділяємо текст на абзаци
+            const paragraphs = content.split('\n').filter(p => p.trim() !== '');
+            const pages = [];
+            let currentPageLines = [];
+
+            for (const paragraph of paragraphs) {
+                const wrappedLines = wrapText(paragraph.trim(), maxCharsPerLine);
+
+                for (const line of wrappedLines) {
+                    // Перевіряємо, чи поміститься рядок на поточну сторінку
+                    if (currentPageLines.length >= maxLinesPerPage) {
+                        // Зберігаємо поточну сторінку і починаємо нову
+                        pages.push(currentPageLines.join('\n'));
+                        currentPageLines = [];
+                    }
+
+                    currentPageLines.push(line);
+                }
+
+                // Додаємо порожній рядок після абзацу (якщо є місце)
+                if (currentPageLines.length < maxLinesPerPage) {
+                    currentPageLines.push('');
+                }
+            }
+
+            // Додаємо останню сторінку, якщо є контент
+            if (currentPageLines.length > 0) {
+                pages.push(currentPageLines.join('\n'));
+            }
+
+            return pages.length > 0 ? pages : [''];
+        }
+
+        function wrapText(text, maxWidth) {
+            if (text.length <= maxWidth) {
+                return [text];
+            }
+
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            for (const word of words) {
+                // Перевіряємо, чи поміститься слово в поточний рядок
+                const testLine = currentLine ? currentLine + ' ' + word : word;
+
+                if (testLine.length <= maxWidth) {
+                    currentLine = testLine;
+                } else {
+                    // Якщо поточний рядок не порожній, зберігаємо його
+                    if (currentLine) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        // Якщо слово довше за ліміт, розрізаємо його
+                        if (word.length > maxWidth) {
+                            let remainingWord = word;
+                            while (remainingWord.length > maxWidth) {
+                                lines.push(remainingWord.substring(0, maxWidth));
+                                remainingWord = remainingWord.substring(maxWidth);
+                            }
+                            currentLine = remainingWord;
+                        } else {
+                            currentLine = word;
+                        }
+                    }
+                }
+            }
+
+            // Додаємо останній рядок
+            if (currentLine) {
+                lines.push(currentLine);
+            }
+
+            return lines;
+        }
+
+        function updatePages() {
+            const leftPage = document.getElementById('leftPageContent');
+            const rightPage = document.getElementById('rightPageContent');
+            const leftPageNum = document.getElementById('leftPageNum');
+            const rightPageNum = document.getElementById('rightPageNum');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            // Left page (odd page numbers)
+            if (currentPageIndex < pages.length) {
+                leftPage.textContent = pages[currentPageIndex];
+                leftPageNum.textContent = currentPageIndex + 1;
+            } else {
+                leftPage.textContent = '';
+                leftPageNum.textContent = '';
+            }
+
+            // Right page (even page numbers)
+            if (currentPageIndex + 1 < pages.length) {
+                rightPage.textContent = pages[currentPageIndex + 1];
+                rightPageNum.textContent = currentPageIndex + 2;
+            } else {
+                rightPage.textContent = '';
+                rightPageNum.textContent = '';
+            }
+
+            // Update button states
+            prevBtn.disabled = currentPageIndex <= 0;
+            nextBtn.disabled = currentPageIndex + 2 >= pages.length;
+        }
+
+        function nextPage() {
+            if (isFlipping || currentPageIndex + 2 >= pages.length) return;
+
+            isFlipping = true;
+            const rightPageElement = document.getElementById('rightPage');
+            rightPageElement.classList.add('flipping');
+
+            setTimeout(() => {
+                currentPageIndex += 2;
+                updatePages();
+                rightPageElement.classList.remove('flipping');
+                isFlipping = false;
+            }, 400);
+        }
+
+        function prevPage() {
+            if (isFlipping || currentPageIndex <= 0) return;
+
+            isFlipping = true;
+            const rightPageElement = document.getElementById('rightPage');
+            rightPageElement.classList.add('flipping');
+
+            setTimeout(() => {
+                currentPageIndex -= 2;
+                updatePages();
+                rightPageElement.classList.remove('flipping');
+                isFlipping = false;
+            }, 400);
+        }
+
+        // Touch support for mobile
+        let startX = 0;
+        let startY = 0;
+
+        document.getElementById('rightPage').addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+
+        document.getElementById('rightPage').addEventListener('touchend', function(e) {
+            if (!startX || !startY) return;
+
+            let endX = e.changedTouches[0].clientX;
+            let endY = e.changedTouches[0].clientY;
+
+            let diffX = startX - endX;
+            let diffY = startY - endY;
+
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > 0) {
+                    nextPage();
+                } else {
+                    prevPage();
+                }
+            }
+
+            startX = 0;
+            startY = 0;
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (currentBook) {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    e.preventDefault();
+                    nextPage();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevPage();
+                } else if (e.key === 'Escape') {
+                    closeReader();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
